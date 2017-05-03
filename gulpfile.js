@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     less = require('gulp-less'),
-    pug = require('gulp-pug');
+    pug = require('gulp-pug'),
+    autoprefixer = require('gulp-autoprefixer');
 
 var path ={
 
@@ -35,6 +36,15 @@ gulp.task('pug', function() {
 gulp.task('less', function() {
     gulp.src(path.src.style)
         .pipe(less())
+        .pipe(gulp.dest(path.build.style));
+});
+
+gulp.task('autoprefixer', function() {
+    gulp.src('./build/style/*.css')
+        .pipe(autoprefixer({
+            browsers: ['last 10 versions'],
+            cascade: false
+        }))
         .pipe(gulp.dest(path.build.style));
 });
 

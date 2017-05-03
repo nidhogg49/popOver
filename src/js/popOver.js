@@ -135,8 +135,4 @@
 
     };
 
-    $( document ).ready(function() {
-        $('.pop-over').popOver();
-    });
-
 })(jQuery);
