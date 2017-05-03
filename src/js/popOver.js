@@ -25,10 +25,10 @@
     var defaults = {
         'time'             : 10000,
         'title'            : {
-            text                : 'Tilte',
-            background          : '#5190d0',
-            color               : '#ffffff',
-            fontSize            : 48
+            text        : 'Tilte',
+            background  : '#5190d0',
+            color       : '#ffffff',
+            fontSize    : 48
         },
         'content'          : {
             time        : 2000,
