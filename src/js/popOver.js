@@ -2,18 +2,17 @@
 
  Version: 0.0.1a
  Author: nidhogg49
- Website: http://nidhogg49.github.io/popUpjs
- Docs: https://github.com/nidhogg49/popUpjs
- Repo: https://github.com/nidhogg49/popUpjs
- Issues: https://github.com/nidhogg49/issues
+ Website: http://nidhogg49.github.io/popOver
+ Docs: https://github.com/nidhogg49/popOver
+ Repo: https://github.com/nidhogg49/popOver
+ Issues: https://github.com/nidhogg49/popOver/issues
 
- **
+ * * *
  *     @param {number}                  time                - время через которое показывается попОвер
  *     @param {string}                  title               - текст заголовка
  *     @param {Object}                  text                - текста
  *     @param {number}                  textTime            - время через которое переключаются текста
- *
- *
+ * * *
 
 */
 ;(function ($) {
@@ -24,67 +23,105 @@
             text    = $('<div class="pop-over__text"></div>');
 
     var defaults = {
-        'time'             : 3600,
+        'time'             : 10000,
         'title'            : {
             text        : 'Забегайте в паблик в вк',
             fontSize    : 48
         },
         'content'          : {
-            time        : 500,
-            text        : ['vk.com/orkpod'],
+            time        : 2000,
+            text        : ['vk.com/orkpod','vk.com/orkpod2', 'vk.com/orkpod3'],
             fontSize    : 24,
             animation   : 'leftRight'
         },
         'position'         : 'bottom',
         'background-color' : 'blue',
-        'animation'        : 'opacity'
-    };
+        'animation'        : 'upDown'
+    },
+        blockInterval = null,
+        contentInterval = null;
 
     var methods = {
         init : function( params ) {
-            var options = $.extend( {}, defaults, params);
-            this.append(title.text(options.title.text)).append(text.text(options.content.text[0]));
+            var options = $.extend( {}, defaults, params),
+                self = this;
 
+            //вставляем заголовок
+            self.append(title.text(options.title.text).css({'font-size':options.title.fontSize}));
+
+            //вставляем контент
+            options.content.text.forEach(function(element, index){
+                self.append(text.clone().text(options.content.text[index]).css({'font-size':options.content.fontSize}));
+            });
+
+            //анимация для всего блока
             if (options.animation == 'upDown' || options.animation == 'opacity') {
-                this.addClass(options.animation);
+                self.addClass(options.animation);
             } else {
                 $.error( 'Анимация "' +  options.animation + '" не найдена в плагине jQuery.popOver' );
             }
-            const $this = this;
 
-            setInterval(function(){
-                return methods.hideShow( $this );
+            //анимация для контента
+            if (options.content.animation == 'leftRight' || options.content.animation == 'opacity') {
+                $(self.find('.pop-over__text')).addClass(options.content.animation);
+                $(self.find('.pop-over__text')[0]).addClass('active');
+            } else {
+                $.error( 'Анимация "' +  options.content.animation + '" не найдена в плагине jQuery.popOver' );
+            }
+
+            return self.popOver('hideShow');
+        },
+        hideShow : function( params )  {
+            var options = $.extend( {}, defaults, params),
+                self = this;
+
+            blockInterval = setInterval(function(){
+                self.toggleClass('hide');
+
+                if (self.hasClass('hide')){
+                    clearInterval(contentInterval);
+                } else {
+                    start();
+                }
+
             },options.time);
 
-            setInterval(function(){
-            },options.content.time);
+            function start() {
+                contentInterval = setInterval(function(){
 
-        },
-        hideShow : function( obj )  {
-            obj.toggleClass('hide');
-        },
-        update : function( content ) {
+                    var prevElem = $(self.find('.pop-over__text.active')),
+                        currElem = prevElem.next('.pop-over__text');
 
+                    prevElem.removeClass('active');
+                    self.append(prevElem);
+                    currElem.addClass('active');
+
+                },options.content.time);
+            }
+
+            if (options.content.text.length > 1) {
+                start();
+            }
+        },
+        update : function( params ) {
+            var options = $.extend( {}, defaults, params),
+                self = this;
+
+            return self.popOver(options);
         }
     };
 
     $.fn.popOver = function(method) {
 
         if ( methods[method] ) {
-            // если запрашиваемый метод существует, мы его вызываем
-            // все параметры, кроме имени метода прийдут в метод
-            // this так же перекочует в метод
             return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
         } else if ( typeof method === 'object' || ! method ) {
-            // если первым параметром идет объект, либо совсем пусто
-            // выполняем метод init
             return methods.init.apply( this, arguments );
         } else {
-            // если ничего не получилось
             $.error( 'Метод "' +  method + '" не найден в плагине jQuery.popOver' );
         }
 
-    }
+    };
 
     $( document ).ready(function() {
         $('.pop-over').popOver();
