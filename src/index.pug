@@ -15,7 +15,8 @@ html(lang='ru')
 
         block scripts
             script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-            script(src='./build/js/popOver.min.js')
+            script(src='./src/js/popOver.js')
+            //script(src='./build/js/popOver.min.js')
 
     body
 
@@ -25,9 +26,7 @@ html(lang='ru')
         block content
 
             main
-                .pop-over.pop-over_container
-                    .pop-over__title Забегайте в паблик в вк
-                    .pop-over__text vk.com/orkpod
+                .pop-over
 
         block footer
             include components/footer

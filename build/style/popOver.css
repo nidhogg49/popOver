@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Bebas Neue';
-  src: url('../../../build/fonts/ofont.ru_Bebas Neue Cyrillic.ttf') format('truetype');
+  src: url('../fonts/ofont.ru_Bebas Neue Cyrillic.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -13,6 +13,21 @@
   background: blue;
   color: #FFFFFF;
   font-family: "Bebas Neue";
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+}
+.pop-over.upDown {
+  bottom: -500px;
+}
+.pop-over.upDown.hide {
+  opacity: 0;
+}
+.pop-over.opacity {
+  opacity: 1;
+}
+.pop-over.opacity.hide {
+  opacity: 0;
 }
 .pop-over__title {
   font-size: 48px;

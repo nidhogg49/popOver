@@ -6,35 +6,88 @@
  Docs: https://github.com/nidhogg49/popUpjs
  Repo: https://github.com/nidhogg49/popUpjs
  Issues: https://github.com/nidhogg49/issues
- */
-;(function ($, window, document) {
+
+ **
+ *     @param {number}                  time                - время через которое показывается попОвер
+ *     @param {string}                  title               - текст заголовка
+ *     @param {Object}                  text                - текста
+ *     @param {number}                  textTime            - время через которое переключаются текста
+ *
+ *
+
+*/
+;(function ($) {
 
     "use strict";
 
-    const   popUp   = $('.pop-over'),
-            title   = $('.pop-over__title'),
-            text    = $('.pop-over__text');
+    const   title   = $('<div class="pop-over__title"></div>'),
+            text    = $('<div class="pop-over__text"></div>');
 
-    var PopOver = {
+    var defaults = {
+        'time'             : 3600,
+        'title'            : {
+            text        : 'Забегайте в паблик в вк',
+            fontSize    : 48
+        },
+        'content'          : {
+            time        : 500,
+            text        : ['vk.com/orkpod'],
+            fontSize    : 24,
+            animation   : 'leftRight'
+        },
+        'position'         : 'bottom',
+        'background-color' : 'blue',
+        'animation'        : 'opacity'
+    };
 
-        init: function () {
+    var methods = {
+        init : function( params ) {
+            var options = $.extend( {}, defaults, params);
+            this.append(title.text(options.title.text)).append(text.text(options.content.text[0]));
 
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                this.ui.$html.addClass('is-mobile');
-                this.meta.isMobile = true;
+            if (options.animation == 'upDown' || options.animation == 'opacity') {
+                this.addClass(options.animation);
             } else {
-                PopOver.generate();
+                $.error( 'Анимация "' +  options.animation + '" не найдена в плагине jQuery.popOver' );
             }
+            const $this = this;
+
+            setInterval(function(){
+                return methods.hideShow( $this );
+            },options.time);
+
+            setInterval(function(){
+            },options.content.time);
 
         },
-        
-        generate: function (params) {
-            
+        hideShow : function( obj )  {
+            obj.toggleClass('hide');
+        },
+        update : function( content ) {
+
         }
     };
 
-    $(function () {
-        PopOver.init();
+    $.fn.popOver = function(method) {
+
+        if ( methods[method] ) {
+            // если запрашиваемый метод существует, мы его вызываем
+            // все параметры, кроме имени метода прийдут в метод
+            // this так же перекочует в метод
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            // если первым параметром идет объект, либо совсем пусто
+            // выполняем метод init
+            return methods.init.apply( this, arguments );
+        } else {
+            // если ничего не получилось
+            $.error( 'Метод "' +  method + '" не найден в плагине jQuery.popOver' );
+        }
+
+    }
+
+    $( document ).ready(function() {
+        $('.pop-over').popOver();
     });
 
-})(jQuery, window, document);
+})(jQuery);

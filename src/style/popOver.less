@@ -9,6 +9,24 @@
   background: blue;
   color: #FFFFFF;
   font-family: "Bebas Neue";
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+
+  &.upDown {
+    bottom: -500px;
+    &.hide {
+      opacity: 0;
+    }
+  }
+
+  &.opacity {
+    opacity: 1;
+
+    &.hide {
+      opacity: 0;
+    }
+  }
 
   &__title {
     font-size: 48px;
