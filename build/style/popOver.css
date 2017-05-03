@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('../../../build/fonts/ofont.ru_Bebas Neue Cyrillic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.pop-over {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  padding: 20px;
+  text-align: center;
+  background: blue;
+  color: #FFFFFF;
+  font-family: "Bebas Neue";
+}
+.pop-over__title {
+  font-size: 48px;
+  text-transform: uppercase;
+}
+.pop-over__text {
+  font-size: 24px;
+}
