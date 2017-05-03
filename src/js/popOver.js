@@ -25,17 +25,20 @@
     var defaults = {
         'time'             : 10000,
         'title'            : {
-            text        : 'Забегайте в паблик в вк',
-            fontSize    : 48
+            text                : 'Tilte',
+            background          : '#5190d0',
+            color               : '#ffffff',
+            fontSize            : 48
         },
         'content'          : {
             time        : 2000,
-            text        : ['vk.com/orkpod','vk.com/orkpod2', 'vk.com/orkpod3'],
+            text        : ['Content Text1','Content Text2', 'Content Text3'],
             fontSize    : 24,
+            color       : '#000000',
             animation   : 'leftRight'
         },
         'position'         : 'bottom',
-        'background-color' : 'blue',
+        'background'       : '#54a3f4',
         'animation'        : 'upDown'
     },
         blockInterval = null,
@@ -46,12 +49,21 @@
             var options = $.extend( {}, defaults, params),
                 self = this;
 
+            self.css('background-color',options.background);
+
             //вставляем заголовок
-            self.append(title.text(options.title.text).css({'font-size':options.title.fontSize}));
+            self.append(title.text(options.title.text).css({ //стили для Title
+                'font-size':options.title.fontSize,
+                'background-color'  : options.title.background,
+                'color'  : options.title.color
+            }));
 
             //вставляем контент
             options.content.text.forEach(function(element, index){
-                self.append(text.clone().text(options.content.text[index]).css({'font-size':options.content.fontSize}));
+                self.append(text.clone().text(options.content.text[index]).css({ //стили для content
+                    'font-size':options.content.fontSize,
+                    'color':options.content.color
+                }));
             });
 
             //анимация для всего блока
