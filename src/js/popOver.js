@@ -24,6 +24,7 @@
 
     var defaults = {
         'time'             : 10000,
+        'duration'         : 5000,
         'title'            : {
             text        : 'Tilte',
             background  : '#5190d0',
@@ -31,7 +32,7 @@
             fontSize    : 48
         },
         'content'          : {
-            time        : 2000,
+            time        : 1000,
             text        : ['Content Text1','Content Text2', 'Content Text3'],
             fontSize    : 24,
             color       : '#000000',
@@ -42,7 +43,8 @@
         'animation'        : 'upDown'
     },
         blockInterval = null,
-        contentInterval = null;
+        contentInterval = null,
+        durationTimer = null;
 
     var methods = {
         init : function( params ) {
@@ -87,18 +89,32 @@
             var options = $.extend( {}, defaults, params),
                 self = this;
 
-            blockInterval = setInterval(function(){
-                self.toggleClass('hide');
+            function startDurationTimer() {
 
-                if (self.hasClass('hide')){
+                durationTimer = setTimeout(function () {
+
+                    self.addClass('hide');
+
                     clearInterval(contentInterval);
-                } else {
-                    start();
-                }
 
-            },options.time);
+                    startBlock();
 
-            function start() {
+                }, options.duration);
+            }
+
+            function startBlock() {
+
+                blockInterval = setTimeout(function(){
+
+                    self.toggleClass('hide');
+                    startContent();
+                    startDurationTimer();
+
+                },options.time);
+            }
+
+            function startContent() {
+
                 contentInterval = setInterval(function(){
 
                     var prevElem = $(self.find('.pop-over__text.active')),
@@ -111,8 +127,10 @@
                 },options.content.time);
             }
 
+            startDurationTimer();
+
             if (options.content.text.length > 1) {
-                start();
+                startContent();
             }
         },
         update : function( params ) {

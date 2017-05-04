@@ -12,14 +12,10 @@
   text-align: center;
   font-family: "Bebas Neue";
   overflow: hidden;
-  -webkit-transition-property: bottom;
-  transition-property: bottom;
-  -webkit-transition-duration: 1s;
-  transition-duration: 1s;
-  -webkit-transition-timing-function: ease;
-  transition-timing-function: ease;
 }
 .pop-over.upDown {
+  -webkit-animation: bottom 1s ease;
+  animation: bottom 1s ease;
   bottom: 0;
 }
 .pop-over.upDown.hide {
@@ -51,8 +47,8 @@
 }
 .pop-over__text.leftRight.active {
   display: inline-block;
-  -webkit-animation: leftRight 0.5s ease;
-  animation: leftRight 0.5s ease;
+  -webkit-animation: leftRight 1s ease;
+  animation: leftRight 1s ease;
 }
 @-webkit-keyframes leftRight {
   0% {
