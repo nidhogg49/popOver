@@ -51,7 +51,7 @@
             var options = $.extend( {}, defaults, params),
                 self = this;
 
-            self.css('background-color',options.background);
+            self.css('background-color',options.background).addClass('pop-over');
 
             //вставляем заголовок
             self.append(title.text(options.title.text).css({ //стили для Title

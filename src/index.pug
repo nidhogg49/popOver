@@ -19,10 +19,19 @@ html(lang='ru')
             //script(src='./build/js/popOver.min.js')
             script.
                         $(document).ready(function () {
-                            $('.pop-over').popOver();
+                            $('.div1').popOver();
+                            $('.div2').popOver({
+                                'title': {
+                                    text: '123123',
+                                    background: '#5190d0',
+                                    color: '#ffffff',
+                                    fontSize: 24
+                                }
+                            });
                         });
 
     body
 
         main
-            .pop-over
+            .div1
+            .div2
