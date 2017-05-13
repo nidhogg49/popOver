@@ -23,25 +23,26 @@
             text    = $('<div class="pop-over__text"></div>');
 
     var defaults = {
-        'time'             : 10000,
-        'duration'         : 5000,
-        'title'            : {
-            text        : 'Tilte',
-            background  : '#5190d0',
-            color       : '#ffffff',
-            fontSize    : 48
+            'time'             : 1000*60*30,
+            'timeFirstShow'    : 5000,
+            'duration'         : 5000,
+            'title'            : {
+                text        : 'vk.com/orkpod',
+                background  : '#5190d0',
+                color       : '#ffffff',
+                fontSize    : 48
+            },
+            'content'          : {
+                time        : 2000,
+                text        : ['Дискорд для сабов', 'Анонсы','Расписание'],
+                fontSize    : 24,
+                color       : '#000000',
+                animation   : 'leftRight' // leftRight, opacity
+            },
+            'position'         : 'bottom',
+            'background'       : '#54a3f4',
+            'animation'        : 'upDown' // upDown, opacity
         },
-        'content'          : {
-            time        : 1000,
-            text        : ['Content Text1','Content Text2', 'Content Text3'],
-            fontSize    : 24,
-            color       : '#000000',
-            animation   : 'leftRight'
-        },
-        'position'         : 'bottom',
-        'background'       : '#54a3f4',
-        'animation'        : 'upDown'
-    },
         blockInterval = null,
         contentInterval = null,
         durationTimer = null;
@@ -51,7 +52,7 @@
             var options = $.extend( {}, defaults, params),
                 self = this;
 
-            self.css('background-color',options.background).addClass('pop-over');
+            self.css('background-color',options.background).addClass('pop-over hide');
 
             //вставляем заголовок
             self.append(title.text(options.title.text).css({ //стили для Title
@@ -83,7 +84,13 @@
                 $.error( 'Анимация "' +  options.content.animation + '" не найдена в плагине jQuery.popOver' );
             }
 
-            return self.popOver('hideShow');
+            setTimeout(function () {
+
+                self.removeClass('hide');
+
+                return self.popOver('hideShow');
+
+            }, options.timeFirstShow);
         },
         hideShow : function( params )  {
             var options = $.extend( {}, defaults, params),
